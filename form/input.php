@@ -1,4 +1,7 @@
 <?php
+
+header("X-FRAME-OPTIONS: DENY");
+
 // if (!empty($_POST)) {
 //   echo '<pre>';
 //   var_dump($_POST);
