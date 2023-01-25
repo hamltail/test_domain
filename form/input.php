@@ -1,9 +1,19 @@
 <?php
-if (!empty($_GET)) {
+if (!empty($_POST)) {
   echo '<pre>';
-  var_dump($_GET);
+  var_dump($_POST);
   echo '</pre>';
 }
+
+$pageFlag = 0;
+
+if (!empty($_POST['btn_confirm'])) {
+  $pageFlag = 1;
+}
+if (!empty($_POST['btn_submit'])) {
+  $pageFlag = 2;
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -17,16 +27,37 @@ if (!empty($_GET)) {
 </head>
 
 <body>
-  <form method="GET">
-    氏名
-    <input type="text" name="your_name">
-    <br>
-    <input type="checkbox" name="sports[]" value="サッカー">サッカー
-    <input type="checkbox" name="sports[]" value="野球">野球
-    <input type="checkbox" name="sports[]" value="バスケ">バスケ
-    <br>
-    <input type="submit" value="送信">
-  </form>
+
+  <?php if ($pageFlag === 0) : ?>
+    <form method="POST">
+      氏名
+      <input type="text" name="your_name">
+      <br>
+      メールアドレス
+      <input type="email" name="email">
+      <br>
+      <input type="submit" name="btn_confirm" value="確認する">
+    </form>
+  <?php endif; ?>
+
+  <?php if ($pageFlag === 1) : ?>
+    <form method="POST">
+      氏名
+      <?php echo $_POST['your_name']; ?>
+      <br>
+      メールアドレス
+      <?php echo $_POST['email']; ?>
+      <br>
+      <input type="submit" name="btn_submit" value="送信する">
+      <input type="hidden" name="your_name" value="<?php echo $_POST['your_name']; ?>">
+      <input type="email" name="email" value="<?php echo $_POST['email']; ?>">
+    </form>
+  <?php endif; ?>
+
+  <?php if ($pageFlag === 2) : ?>
+    送信が完了しました。
+  <?php endif; ?>
+
 </body>
 
 </html>
