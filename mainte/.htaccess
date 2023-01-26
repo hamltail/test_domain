@@ -1,0 +1,4 @@
+AuthType Basic
+AuthName "IDとパスワードを入力してください。"
+AuthUserFile /var/www/test_domain/mainte/.htpassword
+require valid-user
