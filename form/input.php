@@ -2,6 +2,8 @@
 
 session_start();
 
+require 'validation.php';
+
 header("X-FRAME-OPTIONS: DENY");
 
 if (!empty($_POST)) {
@@ -16,8 +18,9 @@ function h($str)
 }
 
 $pageFlag = 0;
+$errors = validation($_POST);
 
-if (!empty($_POST['btn_confirm'])) {
+if (!empty($_POST['btn_confirm']) && empty($errors)) {
   $pageFlag = 1;
 }
 
@@ -46,6 +49,17 @@ if (!empty($_POST['btn_submit'])) {
     }
     $token = $_SESSION['csrfToken'];
     ?>
+
+    <?php if (!empty($errors) && !empty($_POST['btn_confirm'])) : ?>
+      <?php
+      echo '<ul>';
+      foreach ($errors as $error) {
+        echo '<li>' . $error . '</li>';
+      }
+      echo '</ul>';
+      ?>
+    <?php endif; ?>
+
     <form method="POST">
       氏名
       <input type="text" name="your_name" value="<?php
@@ -55,14 +69,14 @@ if (!empty($_POST['btn_submit'])) {
                                                   ?>">
       <br>
       メールアドレス
-      <input type="email" name="email" value="<?php
+      <input type="text" name="email" value="<?php
                                               if (!empty($_POST['email'])) {
                                                 echo h($_POST['email']);
                                               }
                                               ?>">
       <br>
       ホームページ
-      <input type="url" name="url" value="<?php
+      <input type="text" name="url" value="<?php
                                           if (!empty($_POST['url'])) {
                                             echo h($_POST['url']);
                                           }
