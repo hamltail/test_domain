@@ -81,10 +81,10 @@ if (!empty($_POST['btn_submit'])) {
       <br>
       ホームページ
       <input type="text" name="url" value="<?php
-                                          if (!empty($_POST['url'])) {
-                                            echo h($_POST['url']);
-                                          }
-                                          ?>">
+                                            if (!empty($_POST['url'])) {
+                                              echo h($_POST['url']);
+                                            }
+                                            ?>">
       <br>
       性別
       <input type="radio" name="gender" value="0" <?php
@@ -186,6 +186,10 @@ if (!empty($_POST['btn_submit'])) {
 
   <?php if ($pageFlag === 2) : ?>
     <?php if ($_POST['csrf'] === $_SESSION['csrfToken']) : ?>
+      <?php
+      require '../mainte/insert.php';
+      insertContact($_POST);
+      ?>
       送信が完了しました。
       <?php unset($_SESSION['csrfToken']); ?>
     <?php endif; ?>
